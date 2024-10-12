@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Listen for Firebase authentication state changes
-    firebase.auth().onAuthStateChanged(function(user) {
+    onAuthStateChanged(auth, function(user) {
         if (user) {
             // Send message to Chrome extension to store user ID when logged in
             window.postMessage({ action: "storeUser", userId: user.uid }, "*");
