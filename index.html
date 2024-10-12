@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Profile Optimizer</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <!-- Logo and Company Name -->
+      <div class="logo-container">
+        <img src="assets/logo.jpeg" alt="Internexxus Logo" class="logo">
+        <span class="company-name">Internexxus</span>
+      </div>
+
+      <!-- Illustration -->
+      <div class="illustration">
+        <img src="assets/illustration.jpg" alt="Illustration">
+      </div>
+
+      <!-- Title -->
+      <h2 id="form-title">Welcome to LinkedIn Profile Optimizer</h2>
+
+      <!-- Subtitle -->
+      <p class="subtitle">Optimize your LinkedIn profile for your next big career move</p>
+
+      <!-- Sign-Up Form (default visible) -->
+      <div id="signup-form" class="auth-form">
+        <form>
+          <div class="input-group">
+            <input type="email" id="signup-email" placeholder="Email" required>
+          </div>
+          <div class="input-group">
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <span class="password-eye" id="signup-eye">&#128065;</span>
+          </div>
+          <button type="button" class="btn" id="signup-button">Sign up with Email</button> <!-- Changed button type -->
+        </form>
+        <div id="signup-error" style="display:none; color:red; font-size:0.9rem;"></div>
+
+        <!-- Google Sign-Up Button -->
+        <div class="social-buttons">
+          <button class="btn google-btn" id="google-signup-btn">
+            <img src="assets/google.png" alt="Google" class="icon"> Sign up with Google
+          </button>
+        </div>
+
+        <!-- Footer Text -->
+        <small>By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</small>
+
+        <!-- Toggle to Login -->
+        <p class="toggle-text">Already have an account? <a href="#" id="switch-to-login">Log in here</a></p>
+      </div>
+
+      <!-- Login Form (initially hidden) -->
+      <div id="login-form" class="auth-form" style="display: none;">
+        <form>
+          <div class="input-group">
+            <input type="email" id="login-email" placeholder="Email" required>
+          </div>
+          <div class="input-group">
+            <input type="password" id="login-password" placeholder="Password" required>
+            <span class="password-eye" id="login-eye">&#128065;</span>
+          </div>
+          <button type="button" class="btn login-btn" id="login-button">Log in with Email</button> <!-- Changed button type -->
+        </form>
+
+        <!-- Google Log-In Button -->
+        <div class="social-buttons">
+          <button class="btn google-btn" id="google-login-btn">
+            <img src="assets/google.png" alt="Google" class="icon"> Log in with Google
+          </button>
+        </div>
+        <div id="login-error" style="display:none; color:red; font-size:0.9rem;"></div>
+        <!-- Toggle to Sign-Up -->
+        <p class="toggle-text">Don’t have an account? <a href="#" id="switch-to-signup">Sign up here</a></p>
+      </div>
+    </div>
+  </div>
+  <!-- Firebase Authentication Logic -->
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
