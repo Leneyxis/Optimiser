@@ -159,7 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
-
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        // Send a message to the Chrome extension to store the user ID
+        window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+    }
+    });
     // Handle Email/Password Log-In
     const loginButton = document.getElementById('login-button');
     if (loginButton) {
