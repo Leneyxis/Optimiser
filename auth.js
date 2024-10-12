@@ -85,6 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError(loginErrorDisplay);
     });
 
+    // Function to send message to Chrome extension
+    function sendMessageToExtension(userId) {
+        chrome.runtime.sendMessage(
+            'fnjddgflihjpacfjdpehbnfmblhejpen',  // Replace with your extension's ID
+            { action: 'storeUser', userId: userId },
+            (response) => {
+                console.log('Response from extension:', response);
+            }
+        );
+    }
+
     // Handle Firebase sign-up request
     const signupButton = document.getElementById('signup-button');
     if (signupButton) {
@@ -104,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     // Send message to Chrome extension after successful sign-up
-                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                    sendMessageToExtension(user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -133,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then((userCredential) => {
                     const user = userCredential.user;
                     // Send message to Chrome extension after successful login
-                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                    sendMessageToExtension(user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -157,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then((result) => {
                     const user = result.user;
                     // Send message to Chrome extension after successful Google sign-up
-                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                    sendMessageToExtension(user.uid);
                 })
                 .catch((error) => {
                     showError(signupErrorDisplay, 'Error during Google Sign-Up: ' + error.message);
@@ -174,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then((result) => {
                     const user = result.user;
                     // Send message to Chrome extension after successful Google login
-                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                    sendMessageToExtension(user.uid);
                 })
                 .catch((error) => {
                     showError(loginErrorDisplay, 'Error during Google Login: ' + error.message);
@@ -186,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, function(user) {
         if (user) {
             // Send message to Chrome extension to store user ID when logged in
-            window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+            sendMessageToExtension(user.uid);
         }
     });
 });
