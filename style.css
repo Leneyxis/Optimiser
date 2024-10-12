@@ -1,0 +1,237 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f7fa;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 15px;
+}
+
+/* Card */
+.card {
+  background-color: #fff;
+  border-radius: 25px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo and Company Name */
+.logo-container {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.company-name {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #0073b1;
+}
+
+/* Illustration */
+.illustration img {
+  width: 90%;
+  height: auto;
+  margin-bottom: 20px;
+  align-items: center;
+  border-radius: 5%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+h2 {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+/* Subtitle */
+.subtitle {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+/* Input Group Styling */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px; /* Padding for the eye icon */
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #0073b1;
+  box-shadow: 0 0 6px rgba(0, 115, 177, 0.2);
+}
+
+/* Password Eye Icon */
+.password-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.password-eye:hover {
+  color: #0073b1;
+}
+
+/* Buttons */
+.buttons {
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #0073b1;
+  color: #fff;
+}
+
+.social-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .social-buttons .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .google-btn {
+    background-color: #000000d2;
+    color: #fff;
+  }
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.google-btn {
+  background-color: rgb(15, 15, 15);
+  color: #fff;
+}
+
+.google-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.icon {
+    margin-right: 10px;
+    width: 20px;
+    height: auto;
+  }
+
+/* Footer Text */
+small {
+  display: block;
+  color: #aaa;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+a {
+  color: #0073b1;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Toggle Text */
+.toggle-text {
+  color: #666;
+  font-size: 1rem;
+}
+
+.toggle-text a {
+  color: #0073b1;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.toggle-text a:hover {
+  text-decoration: underline;
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #0073b1;
+  color: #fff;
+}
+
+.login-btn:hover {
+  background-color: #005f8c;
+}
