@@ -85,46 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError(loginErrorDisplay);
     });
 
-    // Store user in Chrome storage and redirect to LinkedIn
-    function handleAuthSuccess(user) {
-        chrome.storage.sync.set({ user: user.uid }, function() {
-            window.location.href = "https://www.linkedin.com";  // Redirect to LinkedIn
-        });
-    }
-
-    // Handle Google Sign-Up
-    const googleSignupBtn = document.getElementById('google-signup-btn');
-    if (googleSignupBtn) {
-        googleSignupBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    handleAuthSuccess(user);
-                })
-                .catch((error) => {
-                    showError(signupErrorDisplay, 'Error during Google Sign-Up: ' + error.message);
-                });
-        });
-    }
-
-    // Handle Google Log-In
-    const googleLoginBtn = document.getElementById('google-login-btn');
-    if (googleLoginBtn) {
-        googleLoginBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    handleAuthSuccess(user);
-                })
-                .catch((error) => {
-                    showError(loginErrorDisplay, 'Error during Google Log-In: ' + error.message);
-                });
-        });
-    }
-
-    // Handle Email/Password Sign-Up with validation
+    // Handle Firebase sign-up request
     const signupButton = document.getElementById('signup-button');
     if (signupButton) {
         signupButton.addEventListener('click', (e) => {
@@ -142,11 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    handleAuthSuccess(user);
+                    // Send message to Chrome extension after successful sign-up
+                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
-                    // Handle Firebase errors here
                     if (errorCode === 'auth/email-already-in-use') {
                         showError(signupErrorDisplay, 'This email is already in use. Please try logging in.');
                     } else if (errorCode === 'auth/invalid-email') {
@@ -159,14 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
-    
-    firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        // Send a message to the Chrome extension to store the user ID
-        window.postMessage({ action: "storeUser", userId: user.uid }, "*");
-    }
-    });
-    // Handle Email/Password Log-In
+
+    // Handle Firebase login request
     const loginButton = document.getElementById('login-button');
     if (loginButton) {
         loginButton.addEventListener('click', (e) => {
@@ -177,19 +132,61 @@ document.addEventListener('DOMContentLoaded', () => {
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    handleAuthSuccess(user);
+                    // Send message to Chrome extension after successful login
+                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
-                    // Handle Firebase login errors here
                     if (errorCode === 'auth/wrong-password') {
                         showError(loginErrorDisplay, 'Wrong password. Please try again.');
                     } else if (errorCode === 'auth/user-not-found') {
                         showError(loginErrorDisplay, 'User not found. Please sign up first.');
                     } else {
-                        showError(loginErrorDisplay, 'Error during log-in: ' + error.message);
+                        showError(loginErrorDisplay, 'Error during login: ' + error.message);
                     }
                 });
         });
     }
+
+    // Handle Google sign-up
+    const googleSignupBtn = document.getElementById('google-signup-btn');
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    // Send message to Chrome extension after successful Google sign-up
+                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                })
+                .catch((error) => {
+                    showError(signupErrorDisplay, 'Error during Google Sign-Up: ' + error.message);
+                });
+        });
+    }
+
+    // Handle Google login
+    const googleLoginBtn = document.getElementById('google-login-btn');
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    // Send message to Chrome extension after successful Google login
+                    window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+                })
+                .catch((error) => {
+                    showError(loginErrorDisplay, 'Error during Google Login: ' + error.message);
+                });
+        });
+    }
+
+    // Listen for Firebase authentication state changes
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // Send message to Chrome extension to store user ID when logged in
+            window.postMessage({ action: "storeUser", userId: user.uid }, "*");
+        }
+    });
 });
