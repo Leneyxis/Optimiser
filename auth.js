@@ -16,6 +16,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Function to send message to Chrome extension
+function sendMessageToExtension(userId) {
+    chrome.runtime.sendMessage(
+        'fnjddgflihjpacfjdpehbnfmblhejpen',  // Replace with your extension's ID
+        { action: 'storeUser', userId: userId },
+        (response) => {
+            console.log('Response from extension:', response);
+        }
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Forms and elements
     const signupForm = document.getElementById('signup-form');
@@ -25,11 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginErrorDisplay = document.getElementById('login-error');
 
     // Function to show success message and hide the forms
-    function showSuccessMessage(message) {
+    function showSuccessMessage(message, userId) {
         successMessageDisplay.textContent = message;
         successMessageDisplay.style.display = 'block';  // Show the success message
         signupForm.style.display = 'none';  // Hide form after success
         loginForm.style.display = 'none';  // Hide form after success
+
+        // Send message to the Chrome extension after sign-up or login
+        sendMessageToExtension(userId);
     }
 
     // Handle Google Sign-Up
@@ -39,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.');
+                    const user = result.user;
+                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     showError(signupErrorDisplay, 'Error during Google Sign-Up: ' + error.message);
@@ -54,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.');
+                    const user = result.user;
+                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     showError(loginErrorDisplay, 'Error during Google Log-In: ' + error.message);
@@ -73,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Firebase sign-up request
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.');
+                    const user = userCredential.user;
+                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -102,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.');
+                    const user = userCredential.user;
+                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
