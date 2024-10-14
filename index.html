@@ -28,6 +28,11 @@
       <!-- Subtitle -->
       <p class="subtitle">Optimize your LinkedIn profile for your next big career move</p>
 
+      <!-- Success Message (hidden by default) -->
+      <div id="success-message" style="display: none; color: green; text-align: center; margin-bottom: 20px;">
+        <!-- This will be updated with the success message dynamically -->
+      </div>
+
       <!-- Sign-Up Form (default visible) -->
       <div id="signup-form" class="auth-form">
         <form>
@@ -38,7 +43,7 @@
             <input type="password" id="signup-password" placeholder="Password" required>
             <span class="password-eye" id="signup-eye">&#128065;</span>
           </div>
-          <button type="button" class="btn" id="signup-button">Sign up with Email</button> <!-- Changed button type -->
+          <button type="button" class="btn" id="signup-button">Sign up with Email</button>
         </form>
         <div id="signup-error" style="display:none; color:red; font-size:0.9rem;"></div>
 
@@ -66,7 +71,7 @@
             <input type="password" id="login-password" placeholder="Password" required>
             <span class="password-eye" id="login-eye">&#128065;</span>
           </div>
-          <button type="button" class="btn login-btn" id="login-button">Log in with Email</button> <!-- Changed button type -->
+          <button type="button" class="btn login-btn" id="login-button">Log in with Email</button>
         </form>
 
         <!-- Google Log-In Button -->
