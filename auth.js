@@ -19,20 +19,30 @@ const auth = getAuth(app);
 // Password validation regex
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
+// Function to send message to Chrome extension
+function sendMessageToExtension(userId) {
+    chrome.runtime.sendMessage(
+        'fnjddgflihjpacfjdpehbnfmblhejpen',  // Replace with your extension's ID
+        { action: 'storeUser', userId: userId },
+        (response) => {
+            console.log('Response from extension:', response);
+        }
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Forms and elements
     const signupForm = document.getElementById('signup-form');
     const loginForm = document.getElementById('login-form');
-    const switchToLoginLink = document.getElementById('switch-to-login');
-    const switchToSignupLink = document.getElementById('switch-to-signup');
+    const successMessageDisplay = document.getElementById('success-message');
     const signupErrorDisplay = document.getElementById('signup-error');
     const loginErrorDisplay = document.getElementById('login-error');
     
-    // Password input elements
+    const switchToLoginLink = document.getElementById('switch-to-login');
+    const switchToSignupLink = document.getElementById('switch-to-signup');
+    
     const signupPasswordInput = document.getElementById('signup-password');
     const loginPasswordInput = document.getElementById('login-password');
-    
-    // Eye icons for toggling password view
     const signupEye = document.getElementById('signup-eye');
     const loginEye = document.getElementById('login-eye');
 
@@ -58,16 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             eyeElement.innerHTML = '&#128065;';  // Closed eye icon
         }
     }
-    // Function to show success message and hide the forms
-    function showSuccessMessage(message, userId) {
-        successMessageDisplay.textContent = message;
-        successMessageDisplay.style.display = 'block';  // Show the success message
-        signupForm.style.display = 'none';  // Hide form after success
-        loginForm.style.display = 'none';  // Hide form after success
-    
-        // Send message to the Chrome extension after sign-up or login
-        sendMessageToExtension(userId);
-    }
+
     // Add event listener for password toggle (Sign-Up form)
     signupEye.addEventListener('click', () => {
         togglePasswordVisibility(signupPasswordInput, signupEye);
@@ -94,6 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError(loginErrorDisplay);
     });
 
+    // Function to show success message and hide the forms
+    function showSuccessMessage(message, userId) {
+        successMessageDisplay.textContent = message;
+        successMessageDisplay.style.display = 'block';  // Show the success message
+        signupForm.style.display = 'none';  // Hide form after success
+        loginForm.style.display = 'none';  // Hide form after success
+
+        // Send message to the Chrome extension after sign-up or login
+        sendMessageToExtension(userId);
+    }
+
     // Handle Google Sign-Up
     const googleSignupBtn = document.getElementById('google-signup-btn');
     if (googleSignupBtn) {
@@ -101,7 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    window.location.href = 'profile.html';  // Redirect to profile page
+                    const user = result.user;
+                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     showError(signupErrorDisplay, 'Error during Google Sign-Up: ' + error.message);
@@ -116,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    window.location.href = 'profile.html';  // Redirect to profile page
+                    const user = result.user;
+                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     showError(loginErrorDisplay, 'Error during Google Log-In: ' + error.message);
@@ -141,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Firebase sign-up request
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    window.location.href = 'profile.html';  // Redirect to profile page
+                    const user = userCredential.user;
+                    showSuccessMessage('Sign up is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -170,7 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    window.location.href = 'profile.html';  // Redirect to profile page
+                    const user = userCredential.user;
+                    showSuccessMessage('Login is successful! Please close this page and open the extension to continue with optimization.', user.uid);
                 })
                 .catch((error) => {
                     const errorCode = error.code;
