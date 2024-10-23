@@ -22,7 +22,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 // Function to send message to Chrome extension
 function sendMessageToExtension(userId) {
     chrome.runtime.sendMessage(
-        'hbceglllkikabcfijcaggiifofelnfik',  // Replace with your extension's ID
+        'fnjddgflihjpacfjdpehbnfmblhejpen',  // Replace with your extension's ID
         { action: 'storeUser', userId: userId },
         (response) => {
             console.log('Response from extension:', response);
